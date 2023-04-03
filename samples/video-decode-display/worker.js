@@ -69,6 +69,7 @@ function start({dataUri, rendererName, canvas}) {
         const fps = ++frameCount / elapsed;
         setStatus("render", `${fps.toFixed(0)} fps`);
       }
+      console.log(frame.timestamp);
 
       // Schedule the frame to be rendered.
       renderFrame(frame);
