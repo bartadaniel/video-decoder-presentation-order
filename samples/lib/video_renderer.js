@@ -21,10 +21,10 @@ export class VideoRenderer {
     this.demuxer = demuxer;
     await this.demuxer.initialize(VIDEO_STREAM_TYPE);
     const config = this.demuxer.getDecoderConfig();
-
+    console.log(config);
     this.canvas = canvas;
-    this.canvas.width = config.displayWidth;
-    this.canvas.height = config.displayHeight;
+    this.canvas.width = 1280;
+    this.canvas.height = 720;
     this.canvasCtx = canvas.getContext('2d');
 
     this.decoder = new VideoDecoder({
@@ -34,6 +34,7 @@ export class VideoRenderer {
 
     let support = await VideoDecoder.isConfigSupported(config);
     console.assert(support.supported);
+    console.log('configuring decoder', config);
     this.decoder.configure(config);
 
     this.init_resolver = null;
@@ -52,6 +53,8 @@ export class VideoRenderer {
       console.warn('VideoRenderer.render(): no frame ');
       return;
     }
+
+    console.log(frame);
 
     this.paint(frame);
   }

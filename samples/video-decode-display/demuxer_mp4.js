@@ -77,6 +77,7 @@ class MP4Demuxer {
   #onReady(info) {
     this.#setStatus("demux", "Ready");
     const track = info.videoTracks[0];
+    console.log('track', track);
 
     // Generate and emit an appropriate VideoDecoderConfig.
     this.#onConfig({
@@ -85,7 +86,9 @@ class MP4Demuxer {
       codec: track.codec.startsWith('vp08') ? 'vp8' : track.codec,
       codedHeight: track.video.height,
       codedWidth: track.video.width,
-      description: this.#description(track),
+      displayAspectHeight: track.track_height,
+      displayAspectWidth : track.track_width * 2,
+      description: this.#description(track)
     });
 
     // Start demuxing.

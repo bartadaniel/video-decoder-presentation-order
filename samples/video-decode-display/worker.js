@@ -58,6 +58,7 @@ function start({dataUri, rendererName, canvas}) {
       break;
   }
 
+  let outputLogged = false;
   // Set up a VideoDecoder.
   const decoder = new VideoDecoder({
     output(frame) {
@@ -71,6 +72,8 @@ function start({dataUri, rendererName, canvas}) {
       }
 
       // Schedule the frame to be rendered.
+      !outputLogged && console.log('output frame', 'displayWidth', frame.displayWidth, 'displayHeight', frame.displayHeight, 'codedWidth', frame.codedWidth, 'codedHeight', frame.codedHeight);
+      outputLogged = true;
       renderFrame(frame);
     },
     error(e) {
@@ -82,6 +85,7 @@ function start({dataUri, rendererName, canvas}) {
   const demuxer = new MP4Demuxer(dataUri, {
     onConfig(config) {
       setStatus("decode", `${config.codec} @ ${config.codedWidth}x${config.codedHeight}`);
+      console.log('config', config);
       decoder.configure(config);
     },
     onChunk(chunk) {
